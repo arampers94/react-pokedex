@@ -1,0 +1,31 @@
+%container
+  background-color: white
+  height: 100%
+  width: 100%
+  border-radius: 5px
+
+$size: 50
+
+.pokedex-container
+  margin: 70px 0
+
+.sidebar
+  @extend %container
+
+.main-content
+  @extend %container
+
+.pokemon-list
+  padding: 10px
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+
+.pokemon-item
+  padding: 0 10px 10px 0
+  text-align: center
+
+.pokemon-image
+  height: $size
+  width: $size
+  border-radius: 5px
