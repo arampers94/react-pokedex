@@ -23,7 +23,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/pokemon/:id" component={Pokemon} />
+          <Route path="/pokedex/:id" component={Pokemon} />
           <Route path="/pokedex" component={Pokedex} />
         </Switch>
       </Router>
