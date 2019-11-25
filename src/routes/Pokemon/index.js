@@ -36,7 +36,7 @@ const Pokemon = ({ match }) => {
     }
 
     fetchData()
-  }, [])
+  }, [id])
 
 
 
@@ -156,7 +156,6 @@ const Pokemon = ({ match }) => {
     // If a pokemon is immune to a certain type, the type is no longer a weakness
     for (let immuneIndex = 0; immuneIndex < immunities.length; immuneIndex++) {
       let currImmune = immunities[immuneIndex]
-      console.log(currImmune)
       let foundImmune = weaknesses.findIndex((element) => element === currImmune)
       if (foundImmune !== -1) {
         weaknesses.splice(foundImmune, 1)
@@ -164,7 +163,6 @@ const Pokemon = ({ match }) => {
     }
 
     immunities.forEach((type, index) => {
-      // console.log(type)
       if (index !== immunities.length - 1) {
         immunitiesList.push(
           <span className="list-item" key={index}>
@@ -180,12 +178,10 @@ const Pokemon = ({ match }) => {
       }
     })
 
-    console.log('WEAKNESSES')
-    console.log(weaknesses.length)
+    // console.log('WEAKNESSES')
+    // console.log(weaknesses.length)
     weaknesses.forEach((type, index) => {
-      console.log(type)
       if (index !== weaknesses.length - 1) {
-        console.log(index)
         weaknessList.push(
           <span className="list-item" key={index}>
             {type},
@@ -200,12 +196,10 @@ const Pokemon = ({ match }) => {
       }
     })
 
-    console.log('RESISTANCES')
-    console.log(resistances.length)
+    // console.log('RESISTANCES')
+    // console.log(resistances.length)
     resistances.forEach((type, index) => {
-      console.log(type)
       if (index !== resistances.length - 1) {
-        console.log(index)
         resistanceList.push(
           <span className="list-item" key={index}>
             {type},
