@@ -9,34 +9,85 @@ import data from './data'
 import './pokedex.sass'
 
 const regions = [
-  "Kanto",
-  "Jhoto",
-  "Hoenn",
-  "Sinnoh",
-  "Unova",
-  "Kalos"
+  {
+    name: 'Kanto',
+    id: 2,
+    firstEntry: 1,
+    lastEntry: 151
+  },
+  {
+    name: 'Johto',
+    id: 3,
+    firstEntry: 152,
+    lastEntry: 251
+  },
+  {
+    name: 'Hoenn',
+    id: 4,
+    firstEntry: 252,
+    lastEntry: 386
+  },
+  {
+    name: 'Sinnoh',
+    id: 5,
+    firstEntry: 387,
+    lastEntry: 493
+  },
+  {
+    name: 'Unova',
+    id: 6,
+    firstEntry: 494,
+    lastEntry: 649
+  },
+  {
+    name: 'Kalos',
+    id: 7,
+    firstEntry: 650,
+    lastEntry: 721
+  },
 ]
 
-var kantoPokemon = []
+var pokemon = []
 
 const Pokedex = () => {
   const [entries, setEntries] = useState(null)
+  const [regionId, setRegionId] = useState(2)
+  const [activeRegion, setActiveRegion] = useState(null)
+  const [regionPokemon, setRegionPokemon] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('https://pokeapi.co/api/v2/pokedex/2/')
+      // Initially fetch data from Kanto region
+      const result = await axios(`https://pokeapi.co/api/v2/pokedex/${regionId}/`)
       console.log('Got data')
       console.log(result.data)
       setEntries(result.data.pokemon_entries)
+      setActiveRegion(regions[regionId - 2])
     }
 
     fetchData()
-  }, [])
+  }, [regionId])
 
-  if (entries) {
+  const updateRegion = (id) => {
+    console.log('Update region called')
+    setRegionId(id)
+  }
 
-    for (let i = 1; i <= 151; i++) {
-      kantoPokemon.push({
+  if (entries && activeRegion) {
+    console.log('STATE OF ENTRIES')
+    console.log(entries)
+
+    console.log('ACTIVE REGION')
+    console.log(activeRegion)
+
+    console.log('REGION POKEMON')
+    console.log(regionPokemon)
+
+    console.log(activeRegion)
+
+    // Get images and names for current region's pokemon
+    for (let i = activeRegion.firstEntry; i <= activeRegion.lastEntry; i++) {
+      pokemon.push({
         img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`,
         name: entries[i - 1].pokemon_species.name
       })
@@ -45,25 +96,27 @@ const Pokedex = () => {
     return (
       <Row className="pokedex-container">
         <Col sm="4">
-          <div className="sidebar">
-            <div>
-              <h3 style={{ paddingLeft: "10px" }}>Regions</h3>
+          <section>
+            <div className="sidebar">
+              <div>
+                <h3 style={{ paddingLeft: "10px" }}>Regions</h3>
+              </div>
+              <ListGroup>
+                {regions.map((region, index) => {
+                  return (
+                    <ListGroup.Item action key={index} onClick={() => updateRegion(region.id)}>
+                      {region.name}
+                    </ListGroup.Item>
+                  )
+                })}
+              </ListGroup>
             </div>
-            <ListGroup>
-              {regions.map((region, index) => {
-                return (
-                  <ListGroup.Item action key={index}>
-                    {region}
-                  </ListGroup.Item>
-                )
-              })}
-            </ListGroup>
-          </div>
+          </section>
         </Col>
         <Col sm="8">
-          <div className="main-content">
+          <section className="main-content">
             <div className="pokemon-list">
-              {kantoPokemon.map((pokemon, index) => {
+              {pokemon.map((pokemon, index) => {
                 return (
                   <div className="pokemon-item" key={index}>
                     <Nav.Link href={`/pokedex/${pokemon.name}`}>
@@ -74,7 +127,7 @@ const Pokedex = () => {
                 )
               })}
             </div>
-          </div>
+          </section>
         </Col>
       </Row>
     )
