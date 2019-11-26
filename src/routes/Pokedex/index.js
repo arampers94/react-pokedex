@@ -49,12 +49,14 @@ const regions = [
 const Pokedex = () => {
   const [regionId, setRegionId] = useState(0)
   const [regionPokemon, setRegionPokemon] = useState(null)
+  const [regionName, setRegionName] = useState('Kanto')
 
   useEffect(() => {
     const fetchData = async () => {
       // Initially fetch data from Kanto region
       const result = await axios(`https://pokeapi.co/api/v2/pokedex/1/`)
       const activeRegion = regions[regionId]
+      setRegionName(activeRegion.name)
 
       // Debugging
       console.log('Got data')
@@ -90,10 +92,10 @@ const Pokedex = () => {
 
     return (
       <Row className="pokedex-container">
-        <Col sm="4">
+        <Col sm="4" style={{ marginBottom: "20px" }}>
           <section>
             <div className="sidebar">
-              <div>
+              <div style={{ padding: "5px 10px" }}>
                 <h3 style={{ paddingLeft: "10px" }}>Regions</h3>
               </div>
               <ListGroup>
@@ -111,6 +113,7 @@ const Pokedex = () => {
         <Col sm="8">
           <section className="main-content">
             <div className="pokemon-list">
+              <h3 className="pokedex-title">Showing {regionName} Region Pokemon</h3>
               {regionPokemon.map((pokemon, index) => {
                 return (
                   <div className="pokemon-item" key={index}>

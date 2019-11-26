@@ -2,43 +2,80 @@ import React, { useState, useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import ErrorPage from '../../components/ErrorPage'
 
 import './pokemon.sass'
+import backgrounds from './backgrounds'
+
+const stats = ["HP", "Atk.", "Def", "Sp. Atk.", "Sp. Def.", "Speed"]
 
 const Pokemon = ({ match }) => {
   const [pokemonData, setPokemonData] = useState(null)
   const [speciesData, setSpeciesData] = useState(null)
   const [pokemonTypes, setPokemonTypes] = useState({ type1: null, type2: null })
+  const [errorCode, setErrorCode] = useState(null)
   const id = match.params.id
+
+  // Used to map base stat to its name in "stats" array
+  var initVal = 12
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-      console.log('Got data')
-      console.log(result.data)
-      const species = await axios(result.data.species.url)
-      const firstType = await axios(result.data.types[0].type.url)
+      try {
+        const result = await axios(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+        console.log('Got data')
+        console.log(result.data)
+        const species = await axios(result.data.species.url)
+        const firstType = await axios(result.data.types[0].type.url)
 
-      let secondType = null
-      if (result.data.types[1]) {
-        secondType = await axios(result.data.types[1].type.url)
+        let secondType = null
+        if (result.data.types[1]) {
+          secondType = await axios(result.data.types[1].type.url)
+        }
+
+        // Note: setting only 1 field will set the other to null
+        if (secondType !== null) {
+          setPokemonTypes({ type1: firstType.data, type2: secondType.data })
+        } else {
+          setPokemonTypes({ type1: firstType.data })
+        }
+
+        setSpeciesData(species.data)
+        setPokemonData(result.data)
+      } catch (error) {
+        if (error.response) {
+          console.log('Error response')
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data);
+          console.log(error.response.status);
+          setErrorCode(error.response.status)
+        } else if (error.request) {
+          console.log('Error request')
+          /*
+           * The request was made but no response was received, `error.request`
+           * is an instance of XMLHttpRequest in the browser and an instance
+           * of http.ClientRequest in Node.js
+           */
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request and triggered an Error
+          console.log('Error', error.message);
+        }
       }
-
-      // Note: setting only 1 field will set the other to null
-      if (secondType !== null) {
-        setPokemonTypes({ type1: firstType.data, type2: secondType.data })
-      } else {
-        setPokemonTypes({ type1: firstType.data })
-      }
-
-      setSpeciesData(species.data)
-      setPokemonData(result.data)
     }
 
     fetchData()
   }, [id])
 
 
+  if (errorCode === 404) {
+    return (
+      <ErrorPage />
+    )
+  }
 
   if (pokemonData && speciesData && pokemonTypes.type1) {
     pokemonData.types = pokemonData.types.reverse()
@@ -68,6 +105,11 @@ const Pokemon = ({ match }) => {
         )
       }
     })
+
+    const backgroundColor = backgrounds[pokemonData.types[0].type.name]
+    console.log(pokemonData.types)
+    console.log(backgroundColor)
+    document.body.style = backgroundColor
 
     pokemonData.abilities.forEach((ability, index) => {
       if (index !== pokemonData.abilities.length - 1) {
@@ -239,7 +281,7 @@ const Pokemon = ({ match }) => {
 
             <section className="entry-section">
               <Col xs="12" className="section-title">
-                <h5>Pokedex Entry</h5>
+                <h5>Pokédex Entry</h5>
               </Col>
               <Col xs="12" className="section-content">
                 <p>
@@ -263,11 +305,11 @@ const Pokemon = ({ match }) => {
               </Col>
               <Col xs="12" className="section-content">
                 <Col xs="4" className="grid-block">
-                  <p>{pokemonData.height}m</p>
+                  <p>{pokemonData.height}ft.</p>
                   <h6>Height</h6>
                 </Col>
                 <Col xs="4" className="grid-block">
-                  <p>{pokemonData.weight}kg</p>
+                  <p>{pokemonData.weight}lbs.</p>
                   <h6>Weight</h6>
                 </Col>
                 <Col xs="4" className="grid-block" id="last-col">
@@ -282,30 +324,15 @@ const Pokemon = ({ match }) => {
                 <h5>Base Stats</h5>
               </Col>
               <Col xs="12" className="section-content">
-                <Col xs="6" sm="4" className="grid-block">
-                  <p>{pokemonData.stats[5].base_stat}</p>
-                  <h6>HP</h6>
-                </Col>
-                <Col xs="6" sm="4" className="grid-block">
-                  <p>{pokemonData.stats[4].base_stat}</p>
-                  <h6>Atk.</h6>
-                </Col>
-                <Col xs="6" sm="4" className="grid-block">
-                  <p>{pokemonData.stats[3].base_stat}</p>
-                  <h6>Def.</h6>
-                </Col>
-                <Col xs="6" sm="4" className="grid-block">
-                  <p>{pokemonData.stats[2].base_stat}</p>
-                  <h6>Sp. Atk.</h6>
-                </Col>
-                <Col xs="6" sm="4" className="grid-block">
-                  <p>{pokemonData.stats[1].base_stat}</p>
-                  <h6>Sp. Def.</h6>
-                </Col>
-                <Col xs="6" sm="4" className="grid-block">
-                  <p>{pokemonData.stats[0].base_stat}</p>
-                  <h6>Speed</h6>
-                </Col>
+                {stats.map((stat, index) => {
+                  initVal--
+                  return (
+                    <Col xs="4" id={`stat-${index}`} key={index} className="grid-block">
+                      <p>{pokemonData.stats[initVal % 6].base_stat}</p>
+                      <h6>{stat}</h6>
+                    </Col>
+                  )
+                })}
               </Col>
             </section>
 

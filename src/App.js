@@ -15,19 +15,23 @@ import Pokedex from './routes/Pokedex'
 
 // Components
 import MyNavbar from './components/MyNavbar'
+import Footer from './components/Footer'
 
 function App() {
   return (
-    <Container>
-      <MyNavbar />
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/pokedex/:id" component={Pokemon} />
-          <Route path="/pokedex" component={Pokedex} />
-        </Switch>
-      </Router>
-    </Container>
+    <div>
+      <Container>
+        <MyNavbar />
+        <Router>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/pokedex/:id" component={Pokemon} />
+            <Route path="/pokedex" component={Pokedex} />
+          </Switch>
+        </Router>
+      </Container>
+      {/* <Footer /> */}
+    </div>
   );
 }
 
