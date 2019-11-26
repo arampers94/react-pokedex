@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import ErrorPage from '../../components/ErrorPage'
 
@@ -360,6 +361,14 @@ const Pokemon = ({ match }) => {
               </Col>
               <Col xs="12" className="section-content">
                 {immunitiesList.length > 0 ? immunitiesList : "None"}
+              </Col>
+            </section>
+
+            <section className="entry-section">
+              <Col xs="12">
+                <Button variant="outline-danger" href="/pokedex">
+                  Back to Pokédex
+              </Button>
               </Col>
             </section>
 
