@@ -113,7 +113,7 @@ const Pokedex = () => {
         <Col sm="8">
           <section className="main-content">
             <div className="pokemon-list">
-              <h3 className="pokedex-title">Showing {regionName} Region Pokemon</h3>
+              <h3 className="pokedex-title">Showing {regionName} Region Pokémon</h3>
               {regionPokemon.map((pokemon, index) => {
                 return (
                   <div className="pokemon-item" key={index}>

@@ -50,8 +50,8 @@ const Home = () => {
                   </Form>
                 </Col>
                 <Col className="landing-section">
-                  <Button variant="danger" href="/pokedex">
-                    View Full Pokédex
+                  <Button variant="danger" onClick={handleSubmit}>
+                    Search
                   </Button>
                 </Col>
               </section>
