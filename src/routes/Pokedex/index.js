@@ -76,7 +76,7 @@ const Pokedex = () => {
         <Col sm="4" style={{ marginBottom: "20px" }}>
           <section>
             <div className="sidebar">
-              <div style={{ padding: "5px 10px" }}>
+              <div style={{ padding: "10px 10px" }}>
                 <h3 style={{ paddingLeft: "10px" }}>Regions</h3>
               </div>
               <ListGroup>
