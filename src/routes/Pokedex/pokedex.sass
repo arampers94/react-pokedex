@@ -6,20 +6,28 @@
 
 $size: 100px
 
+@mixin transition($args...)
+  -webkit-transition: $args
+  -moz-transition: $args
+  -ms-transition: $args
+  -o-transition: $args
+  transition: $args
+
 .pokedex-container
   margin: 70px 0
 
 .sidebar
   @extend %container
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4)
+  background-color: #343a40
+  color: rgba(255, 255, 255, 0.8)
 
 .main-content
   @extend %container
 
 .pokedex-title
   width: 100%
-  margin-left: 24px
-  margin-top: 15px
+  margin: 15px 24px
 
 .pokemon-list
   padding: 10px
@@ -27,6 +35,8 @@ $size: 100px
   flex-wrap: wrap
   justify-content: center
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4)
+  background-color: #343a40
+  color: rgba(255, 255, 255, 0.8)
 
 .pokemon-item
   padding: 0 10px 10px 0
@@ -36,3 +46,24 @@ $size: 100px
   height: $size
   width: $size
   border-radius: 5px
+  position: relative
+
+.region-item
+  background-color: #343a40
+  color: rgba(255, 255, 255, 0.8)
+
+.region-title
+  padding: 10px 10px 0 0
+  margin: 0 20px
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3)
+
+.transparent-overlay
+  position: absolute
+  z-index: 1
+  height: 100px
+  width: 100px
+  border-radius: 50px
+  background-color: rgba(255, 255, 255, 0)
+  @include transition(background-color .2s ease)
+  &:hover
+    background-color: rgba(255, 255, 255, 0.09)

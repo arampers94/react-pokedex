@@ -22,7 +22,7 @@ const ErrorPage = () => {
         <Col xs="12">
           <Nav.Link href="/pokedex" style={{ color: 'black' }}>
             <div className="back-button">
-              <Button variant="outline-danger">
+              <Button variant="danger">
                 <span>Back to Pokedex</span>
               </Button>
             </div>

@@ -69,20 +69,29 @@ const Pokedex = () => {
   }
 
   if (regionPokemon) {
-    document.body.style = 'background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 100%);'
+    document.body.style = `
+    background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+    background-blend-mode: normal, color-burn;
+    `
+    // document.body.style = 'background-blend-mode: normal, color-burn;'
 
     return (
       <Row className="pokedex-container">
         <Col sm="4" style={{ marginBottom: "20px" }}>
           <section>
             <div className="sidebar">
-              <div style={{ padding: "10px 10px" }}>
-                <h3 style={{ paddingLeft: "10px" }}>Regions</h3>
+              <div className="region-title">
+                <h3>Regions</h3>
               </div>
               <ListGroup>
                 {regions.map((region, index) => {
                   return (
-                    <ListGroup.Item action key={index} onClick={() => updateRegion(region.id)}>
+                    <ListGroup.Item
+                      action
+                      key={index}
+                      onClick={() => updateRegion(region.id)}
+                      className="region-item"
+                    >
                       {region.name}
                     </ListGroup.Item>
                   )
@@ -98,13 +107,13 @@ const Pokedex = () => {
                 <h3>Showing {regionName} Region Pokémon</h3>
                 <div>
                   <Form onSubmit={handleSubmit} style={{ display: "flex", width: "100%" }}>
-                    <Button onClick={handleSubmit}>
+                    <Button variant="danger" onClick={handleSubmit}>
                       Search
                     </Button>
                     <Form.Control
                       type="text"
                       onChange={handleChange}
-                      placeholder="ex: Lucario"
+                      placeholder="ex: Pikachu"
                       isInvalid={invalid}
                     />
                   </Form>
@@ -114,6 +123,7 @@ const Pokedex = () => {
                 return (
                   <div className="pokemon-item" key={index}>
                     <Nav.Link href={`/pokedex/${pokemon.name}`}>
+                      <div className="transparent-overlay"></div>
                       <img src={pokemon.img} alt={pokemon.name} className="pokemon-image" />
                     </Nav.Link>
                     <p style={{ textTransform: "capitalize" }}>{pokemon.name}</p>

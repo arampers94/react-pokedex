@@ -7,7 +7,7 @@ import './navbar.sass'
 const MyNavbar = () => {
   return (
     <div>
-      <Navbar collapseOnSelect fixed="top" bg="light" variant="light" className="mynavbar">
+      <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" className="mynavbar">
         <Container>
           <Navbar.Brand href="/">
             <img src="https://fontmeme.com/permalink/191125/cdb881eb17ca4b6488e3e0987de3e1ca.png" alt="pokemon-font" border="0" width="140px" />
