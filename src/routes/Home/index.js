@@ -5,22 +5,30 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import SearchIcon from '../../images/search.png'
+import Toast from 'react-bootstrap/Toast'
 import Footer from '../../components/Footer'
 
 const Home = () => {
-  const [inputText, setInputText] = useState(null)
+  const [inputText, setInputText] = useState("")
+  const [invalid, setInvalid] = useState(false)
   let history = useHistory()
 
   const handleChange = (e) => {
-    console.log(e.target.value)
     setInputText(e.target.value)
+    setInvalid(false)
   }
 
   const handleSubmit = () => {
-    const textLowerCase = inputText.toLowerCase()
-    history.push(`/pokedex/${textLowerCase}`)
+    if (inputText === "") {
+      setInvalid(true)
+      alert("Search can not be blank.")
+    } else {
+      const textLowerCase = inputText.toLowerCase()
+      history.push(`/pokedex/${textLowerCase}`)
+    }
   }
+
+  document.body.style = 'background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 100%);'
 
   return (
     // <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -41,18 +49,26 @@ const Home = () => {
                 <Col className="landing-section">
                   <Form onSubmit={handleSubmit}>
                     <div style={{ display: "flex" }}>
-                      <Form.Control type="text" onChange={handleChange} style={{ marginRight: "10px" }} placeholder="ex: Lucario" />
-                      <img src={SearchIcon} alt="search icon" width="40px" onClick={handleSubmit} />
+                      <Form.Group style={{ width: "100%" }}>
+                        <Form.Label style={{ fontSize: ".75em" }}>
+                          Start by searching for your favorite Pokémon!
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={handleChange}
+                          style={{ marginRight: "10px" }}
+                          placeholder="ex: Lucario"
+                          isInvalid={invalid}
+                        />
+                      </Form.Group>
                     </div>
-                    <Form.Text>
-                      Start by searching for your favorite Pokémon!
-                  </Form.Text>
+                    <Button variant="danger" onClick={handleSubmit} className="buttons">
+                      Search
+                    </Button>
+                    <Button variant="dark" href="/pokedex" className="buttons">
+                      View Full Pokédex
+                    </Button>
                   </Form>
-                </Col>
-                <Col className="landing-section">
-                  <Button variant="danger" onClick={handleSubmit}>
-                    Search
-                  </Button>
                 </Col>
               </section>
             </Row>

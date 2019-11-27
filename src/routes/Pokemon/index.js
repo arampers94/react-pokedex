@@ -368,7 +368,7 @@ const Pokemon = ({ match }) => {
               <Col xs="12">
                 <Button variant="outline-danger" href="/pokedex">
                   Back to Pokédex
-              </Button>
+                </Button>
               </Col>
             </section>
 
