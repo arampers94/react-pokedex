@@ -1,55 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Nav from 'react-bootstrap/Nav'
+import Form from 'react-bootstrap/Form'
 import axios from 'axios'
+import regions from './data'
+import { useHistory } from 'react-router-dom'
 
 import './pokedex.sass'
-
-const regions = [
-  {
-    name: 'Kanto',
-    id: 0,
-    firstEntry: 1,
-    lastEntry: 151
-  },
-  {
-    name: 'Johto',
-    id: 1,
-    firstEntry: 152,
-    lastEntry: 251
-  },
-  {
-    name: 'Hoenn',
-    id: 2,
-    firstEntry: 252,
-    lastEntry: 386
-  },
-  {
-    name: 'Sinnoh',
-    id: 3,
-    firstEntry: 387,
-    lastEntry: 493
-  },
-  {
-    name: 'Unova',
-    id: 4,
-    firstEntry: 494,
-    lastEntry: 649
-  },
-  {
-    name: 'Kalos',
-    id: 5,
-    firstEntry: 650,
-    lastEntry: 721
-  },
-]
 
 const Pokedex = () => {
   const [regionId, setRegionId] = useState(0)
   const [regionPokemon, setRegionPokemon] = useState(null)
   const [regionName, setRegionName] = useState('Kanto')
+  const [inputText, setInputText] = useState("")
+  const [invalid, setInvalid] = useState(false)
+  let history = useHistory()
+
+  const handleChange = (e) => {
+    setInputText(e.target.value)
+    setInvalid(false)
+  }
+
+  const handleSubmit = () => {
+    if (inputText === "") {
+      setInvalid(true)
+      alert("Search can not be blank.")
+    } else {
+      const textLowerCase = inputText.toLowerCase()
+      history.push(`/pokedex/${textLowerCase}`)
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,8 +42,8 @@ const Pokedex = () => {
       setRegionName(activeRegion.name)
 
       // Debugging
-      console.log('Got data')
-      console.log(result.data)
+      // console.log('Got data')
+      // console.log(result.data)
       // console.log('Active Region')
       // console.log(activeRegion)
 
@@ -86,9 +69,7 @@ const Pokedex = () => {
   }
 
   if (regionPokemon) {
-
-    // console.log('REGION POKEMON')
-    // console.log(regionPokemon)
+    document.body.style = 'background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 100%);'
 
     return (
       <Row className="pokedex-container">
@@ -113,7 +94,22 @@ const Pokedex = () => {
         <Col sm="8">
           <section className="main-content">
             <div className="pokemon-list">
-              <h3 className="pokedex-title">Showing {regionName} Region Pokémon</h3>
+              <div className="pokedex-title">
+                <h3>Showing {regionName} Region Pokémon</h3>
+                <div>
+                  <Form onSubmit={handleSubmit} style={{ display: "flex", width: "100%" }}>
+                    <Button onClick={handleSubmit}>
+                      Search
+                    </Button>
+                    <Form.Control
+                      type="text"
+                      onChange={handleChange}
+                      placeholder="ex: Lucario"
+                      isInvalid={invalid}
+                    />
+                  </Form>
+                </div>
+              </div>
               {regionPokemon.map((pokemon, index) => {
                 return (
                   <div className="pokemon-item" key={index}>

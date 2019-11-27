@@ -1,46 +1,40 @@
-const dimensions = 125
-
-const data = [
+const regions = [
   {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
+    name: 'Kanto',
+    id: 0,
+    firstEntry: 1,
+    lastEntry: 151
   },
   {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
+    name: 'Johto',
+    id: 1,
+    firstEntry: 152,
+    lastEntry: 251
   },
   {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
+    name: 'Hoenn',
+    id: 2,
+    firstEntry: 252,
+    lastEntry: 386
   },
   {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
+    name: 'Sinnoh',
+    id: 3,
+    firstEntry: 387,
+    lastEntry: 493
   },
   {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
+    name: 'Unova',
+    id: 4,
+    firstEntry: 494,
+    lastEntry: 649
   },
   {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
-  },
-  {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
-  },
-  {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
-  },
-  {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
-  },
-  {
-    img: `https://via.placeholder.com/${dimensions}`,
-    name: 'Pikachu',
+    name: 'Kalos',
+    id: 5,
+    firstEntry: 650,
+    lastEntry: 721
   },
 ]
 
-export default data
+export default regions
