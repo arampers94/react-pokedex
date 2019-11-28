@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import ErrorPage from '../../components/ErrorPage'
 import LoadingScreen from '../../components/LoadingScreen'
+import Types from './types'
 
 import './pokemon.sass'
 import backgrounds from './backgrounds'
@@ -93,19 +94,11 @@ const Pokemon = ({ match }) => {
     const immunitiesList = []
 
     pokemonData.types.forEach((type, index) => {
-      if (pokemonData.types.length > 1 && index === 0) {
-        types.push(
-          <p className="list-item" key={index}>
-            {type.type.name},
-          </p>
-        )
-      } else {
-        types.push(
-          <p className="list-item" key={index}>
-            {type.type.name}
-          </p>
-        )
-      }
+      types.push(
+        <p className="list-item" key={index}>
+          <img src={Types[type.type.name]} className="type-img" alt={type.type.name} />
+        </p>
+      )
     })
 
     const backgroundColor = backgrounds[pokemonData.types[0].type.name]
@@ -207,55 +200,31 @@ const Pokemon = ({ match }) => {
     }
 
     immunities.forEach((type, index) => {
-      if (index !== immunities.length - 1) {
-        immunitiesList.push(
-          <span className="list-item" key={index}>
-            {type},
-          </span>
-        )
-      } else {
-        immunitiesList.push(
-          <span className="list-item" key={index}>
-            {type}
-          </span>
-        )
-      }
+      immunitiesList.push(
+        <span className="list-item" key={index}>
+          <img src={Types[type]} className="type-img" alt={type} />
+        </span>
+      )
     })
 
     // console.log('WEAKNESSES')
     // console.log(weaknesses.length)
     weaknesses.forEach((type, index) => {
-      if (index !== weaknesses.length - 1) {
-        weaknessList.push(
-          <span className="list-item" key={index}>
-            {type},
-          </span>
-        )
-      } else {
-        weaknessList.push(
-          <span className="list-item" key={index}>
-            {type}
-          </span>
-        )
-      }
+      weaknessList.push(
+        <span className="list-item" key={index}>
+          <img src={Types[type]} className="type-img" alt={type} />
+        </span>
+      )
     })
 
     // console.log('RESISTANCES')
     // console.log(resistances.length)
     resistances.forEach((type, index) => {
-      if (index !== resistances.length - 1) {
-        resistanceList.push(
-          <span className="list-item" key={index}>
-            {type},
-          </span>
-        )
-      } else {
-        resistanceList.push(
-          <span className="list-item" key={index}>
-            {type}
-          </span>
-        )
-      }
+      resistanceList.push(
+        <span className="list-item" key={index}>
+          <img src={Types[type]} className="type-img" alt={type} />
+        </span>
+      )
     })
 
     return (
@@ -307,11 +276,11 @@ const Pokemon = ({ match }) => {
               </Col>
               <Col xs="12" className="section-content">
                 <Col xs="4" className="grid-block">
-                  <p>{pokemonData.height}ft.</p>
+                  <p>{parseFloat(pokemonData.height / 10)}m</p>
                   <h6>Height</h6>
                 </Col>
                 <Col xs="4" className="grid-block">
-                  <p>{pokemonData.weight}lbs.</p>
+                  <p>{parseFloat(pokemonData.weight / 10)}kg.</p>
                   <h6>Weight</h6>
                 </Col>
                 <Col xs="4" className="grid-block" id="last-col">
