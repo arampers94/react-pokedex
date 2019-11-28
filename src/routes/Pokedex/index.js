@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import regions from './data'
 import { useHistory } from 'react-router-dom'
+import LoadingScreen from '../../components/LoadingScreen'
 
 import './pokedex.sass'
 
@@ -137,7 +138,7 @@ const Pokedex = () => {
     )
   } else {
     return (
-      <p>Loading...</p>
+      <LoadingScreen />
     )
   }
 }

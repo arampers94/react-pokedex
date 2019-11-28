@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import ErrorPage from '../../components/ErrorPage'
+import LoadingScreen from '../../components/LoadingScreen'
 
 import './pokemon.sass'
 import backgrounds from './backgrounds'
@@ -366,7 +367,7 @@ const Pokemon = ({ match }) => {
 
             <section className="entry-section">
               <Col xs="12">
-                <Button variant="outline-info" href="/pokedex">
+                <Button variant="danger" href="/pokedex">
                   Back to Pokédex
                 </Button>
               </Col>
@@ -378,7 +379,7 @@ const Pokemon = ({ match }) => {
     )
   } else {
     return (
-      <p>Loading...</p>
+      <LoadingScreen />
     )
   }
 }

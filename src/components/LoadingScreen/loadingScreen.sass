@@ -1,0 +1,39 @@
+.loading-screen-wrapper
+  height: 100vh
+
+.loading-screen-content
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
+
+.pokeball
+  height: 250px
+  width: 250px
+  border: 10px solid #383b4f
+  border-radius: 50%
+  background-image: linear-gradient(#f51939 125px, white 125px)
+  position: relative
+  animation: load 1s infinite ease-in-out
+
+@keyframes  load
+  50%
+    transform: scale(0.8)
+
+.pokeball:before
+  position: absolute
+  content: ""
+  height: 20px
+  width: 230px
+  background-color: #383b4f
+  top: 112.5px
+
+.pokeball:after
+  position: absolute
+  content: ""
+  height: 90px
+  width: 90px
+  background-image: radial-gradient(#ffffff 0px, #ffffff 10px, #383b4f 10px, #383b4f 15px, #fff 15px, #fff 32px, #383b4f 32px)
+  border-radius: 50%
+  top: 80px
+  left: 72px
