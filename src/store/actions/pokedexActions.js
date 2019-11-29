@@ -48,7 +48,7 @@ export const initialFetch = () => {
     axios
       .get(`https://pokeapi.co/api/v2/pokedex/1/`)
       .then(result => {
-        console.log('Got data')
+        console.log('Fetch success')
         const pokemonEntries = result.data.pokemon_entries
         console.log(pokemonEntries)
         const region = regions[0]
@@ -58,9 +58,12 @@ export const initialFetch = () => {
         for (let i = region.firstEntry; i <= region.lastEntry; i++) {
           currentPokemonList.push({
             img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`,
-            name: pokemonEntries.pokemon_entries[i - 1].pokemon_species.name
+            name: pokemonEntries[i - 1].pokemon_species.name
           })
         }
+
+        console.log('Current pokemon list')
+        console.log(currentPokemonList)
 
         dispatch(initialFetchSuccess(pokemonEntries, currentPokemonList, region.name))
       }).catch(error => {

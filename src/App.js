@@ -21,8 +21,8 @@ function App() {
   return (
     <div>
       <Container>
-        <MyNavbar />
         <Router>
+          <MyNavbar />
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/pokedex/:id" component={Pokemon} />

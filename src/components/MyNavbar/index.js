@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import './navbar.sass'
+import { Link } from 'react-router-dom'
 
 const MyNavbar = () => {
   return (
@@ -15,8 +16,16 @@ const MyNavbar = () => {
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav className="justify-content-end mynav">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/pokedex">Pokédex</Nav.Link>
+              <div className="link-wrapper">
+                <Link to="/" className="link-tag">
+                  Home
+                </Link>
+              </div>
+              <div className="link-wrapper">
+                <Link to="/pokedex" className="link-tag">
+                  Pokédex
+                </Link>
+              </div>
             </Nav>
           </Navbar.Collapse>
         </Container>

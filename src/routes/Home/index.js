@@ -8,14 +8,15 @@ import Button from 'react-bootstrap/Button'
 import Footer from '../../components/Footer'
 import { connect } from 'react-redux'
 import { initialFetch } from '../../store/actions/pokedexActions'
+import { Link } from 'react-router-dom'
 
 const Home = (props) => {
   const [inputText, setInputText] = useState("")
   const [invalid, setInvalid] = useState(false)
   let history = useHistory()
+  const { initialDataFetched, initialFetch } = props
 
   useEffect(() => {
-    const { initialDataFetched, initialFetch } = props
     if (!initialDataFetched) {
       initialFetch()
     }
@@ -76,8 +77,10 @@ const Home = (props) => {
                     <Button variant="danger" onClick={handleSubmit} className="buttons">
                       Search
                     </Button>
-                    <Button variant="dark" href="/pokedex" className="buttons">
-                      View Full Pokédex
+                    <Button variant="dark" className="buttons">
+                      <Link to="/pokedex" className="link-tag">
+                        View Full Pokédex
+                      </Link>
                     </Button>
                   </Form>
                 </Col>
@@ -93,8 +96,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    currentRegion: state.pokedex.currentRegion,
-    selectedRegion: state.pokedex.selectedRegion
+    initialDataFetched: state.pokedex.initialDataFetched
   }
 }
 

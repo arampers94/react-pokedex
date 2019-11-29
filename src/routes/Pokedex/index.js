@@ -5,20 +5,20 @@ import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
-import axios from 'axios'
 import regions from './data'
 import { useHistory } from 'react-router-dom'
 import LoadingScreen from '../../components/LoadingScreen'
+import { connect } from 'react-redux'
+import { initialFetch } from '../../store/actions/pokedexActions'
 
 import './pokedex.sass'
 
-const Pokedex = () => {
+const Pokedex = (props) => {
   const [regionId, setRegionId] = useState(0)
-  const [regionPokemon, setRegionPokemon] = useState(null)
-  const [regionName, setRegionName] = useState('Kanto')
   const [inputText, setInputText] = useState("")
   const [invalid, setInvalid] = useState(false)
   let history = useHistory()
+  const { list, initialFetch, initialDataFetched, regionName } = props
 
   const handleChange = (e) => {
     setInputText(e.target.value)
@@ -36,45 +36,21 @@ const Pokedex = () => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Initially fetch data from Kanto region
-      const result = await axios(`https://pokeapi.co/api/v2/pokedex/1/`)
-      const activeRegion = regions[regionId]
-      setRegionName(activeRegion.name)
-
-      // Debugging
-      // console.log('Got data')
-      // console.log(result.data)
-      // console.log('Active Region')
-      // console.log(activeRegion)
-
-      var pokemon = []
-
-      // Get images and names for current region's pokemon
-      for (let i = activeRegion.firstEntry; i <= activeRegion.lastEntry; i++) {
-        pokemon.push({
-          img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`,
-          name: result.data.pokemon_entries[i - 1].pokemon_species.name
-        })
-      }
-
-      setRegionPokemon(pokemon)
+    if (!initialDataFetched) {
+      initialFetch()
     }
-
-    fetchData()
-  }, [regionId])
+  })
 
   const updateRegion = (id) => {
     console.log('Update region called')
     setRegionId(id)
   }
 
-  if (regionPokemon) {
+  if (list.length !== 0) {
     document.body.style = `
     background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
     background-blend-mode: normal, color-burn;
     `
-    // document.body.style = 'background-blend-mode: normal, color-burn;'
 
     return (
       <Row className="pokedex-container">
@@ -120,7 +96,7 @@ const Pokedex = () => {
                   </Form>
                 </div>
               </div>
-              {regionPokemon.map((pokemon, index) => {
+              {list.map((pokemon, index) => {
                 return (
                   <div className="pokemon-item" key={index}>
                     <Nav.Link href={`/pokedex/${pokemon.name}`}>
@@ -143,4 +119,18 @@ const Pokedex = () => {
   }
 }
 
-export default Pokedex
+const mapStateToProps = (state) => {
+  return {
+    list: state.pokedex.currentPokemonList,
+    initialDataFetched: state.pokedex.initialDataFetched,
+    regionName: state.pokedex.selectedRegion
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initialFetch: () => (dispatch(initialFetch()))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pokedex)
