@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import './home.sass'
 import Row from 'react-bootstrap/Row'
@@ -6,11 +6,20 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Footer from '../../components/Footer'
+import { connect } from 'react-redux'
+import { initialFetch } from '../../store/actions/pokedexActions'
 
-const Home = () => {
+const Home = (props) => {
   const [inputText, setInputText] = useState("")
   const [invalid, setInvalid] = useState(false)
   let history = useHistory()
+
+  useEffect(() => {
+    const { initialDataFetched, initialFetch } = props
+    if (!initialDataFetched) {
+      initialFetch()
+    }
+  })
 
   const handleChange = (e) => {
     setInputText(e.target.value)
@@ -82,4 +91,17 @@ const Home = () => {
   )
 }
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    currentRegion: state.pokedex.currentRegion,
+    selectedRegion: state.pokedex.selectedRegion
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initialFetch: () => (dispatch(initialFetch()))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
