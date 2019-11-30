@@ -9,16 +9,15 @@ import regions from './data'
 import { useHistory } from 'react-router-dom'
 import LoadingScreen from '../../components/LoadingScreen'
 import { connect } from 'react-redux'
-import { initialFetch } from '../../store/actions/pokedexActions'
+import { initialFetch, updateRegion } from '../../store/actions/pokedexActions'
 
 import './pokedex.sass'
 
 const Pokedex = (props) => {
-  const [regionId, setRegionId] = useState(0)
   const [inputText, setInputText] = useState("")
   const [invalid, setInvalid] = useState(false)
   let history = useHistory()
-  const { list, initialFetch, initialDataFetched, regionName } = props
+  const { list, initialFetch, initialDataFetched, regionName, loading, updateRegion } = props
 
   const handleChange = (e) => {
     setInputText(e.target.value)
@@ -37,16 +36,15 @@ const Pokedex = (props) => {
 
   useEffect(() => {
     if (!initialDataFetched) {
-      initialFetch()
+      initialFetch(1)
     }
   })
 
-  const updateRegion = (id) => {
-    console.log('Update region called')
-    setRegionId(id)
-  }
-
-  if (list.length !== 0) {
+  if (loading) {
+    return (
+      <LoadingScreen />
+    )
+  } else {
     document.body.style = `
     background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
     background-blend-mode: normal, color-burn;
@@ -112,10 +110,6 @@ const Pokedex = (props) => {
         </Col>
       </Row>
     )
-  } else {
-    return (
-      <LoadingScreen />
-    )
   }
 }
 
@@ -123,13 +117,15 @@ const mapStateToProps = (state) => {
   return {
     list: state.pokedex.currentPokemonList,
     initialDataFetched: state.pokedex.initialDataFetched,
-    regionName: state.pokedex.selectedRegion
+    regionName: state.pokedex.selectedRegion,
+    loading: state.pokedex.loading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initialFetch: () => (dispatch(initialFetch()))
+    initialFetch: (regionId) => (dispatch(initialFetch(regionId))),
+    updateRegion: (id) => (dispatch(updateRegion(id)))
   }
 }
 

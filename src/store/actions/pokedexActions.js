@@ -74,6 +74,14 @@ export const initialFetch = () => {
   }
 }
 
+export const updateRegion = (id) => {
+  console.log('Updating region')
+  return dispatch => {
+    const region = regions[id]
+    dispatch(update(region))
+  }
+}
+
 const initialFetchStarted = () => ({
   type: pokedexTypes.INITIAL_FETCH_STARTED
 })
@@ -87,9 +95,16 @@ const initialFetchSuccess = (pokemonEntries, currentPokemonList, currentRegion) 
   }
 })
 
-const initialFetchFailed = error => ({
+const initialFetchFailed = (error) => ({
   type: pokedexTypes.INITIAL_FETCH_FAILED,
   payload: {
     error
+  }
+})
+
+const update = (region) => ({
+  type: pokedexTypes.UPDATE_REGION,
+  payload: {
+    region
   }
 })

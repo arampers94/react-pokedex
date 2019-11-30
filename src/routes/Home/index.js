@@ -18,7 +18,7 @@ const Home = (props) => {
 
   useEffect(() => {
     if (!initialDataFetched) {
-      initialFetch()
+      initialFetch(1)
     }
   })
 
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initialFetch: () => (dispatch(initialFetch()))
+    initialFetch: (regionId) => (dispatch(initialFetch(regionId)))
   }
 }
 
