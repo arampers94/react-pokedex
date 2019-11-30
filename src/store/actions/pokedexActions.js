@@ -50,7 +50,7 @@ export const initialFetch = () => {
       .then(result => {
         console.log('Fetch success')
         const pokemonEntries = result.data.pokemon_entries
-        console.log(pokemonEntries)
+        // console.log(pokemonEntries)
         const region = regions[0]
         var currentPokemonList = []
 
@@ -62,8 +62,8 @@ export const initialFetch = () => {
           })
         }
 
-        console.log('Current pokemon list')
-        console.log(currentPokemonList)
+        // console.log('Current pokemon list')
+        // console.log(currentPokemonList)
 
         dispatch(initialFetchSuccess(pokemonEntries, currentPokemonList, region.name))
       }).catch(error => {

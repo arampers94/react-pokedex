@@ -77,11 +77,11 @@ const Home = (props) => {
                     <Button variant="danger" onClick={handleSubmit} className="buttons">
                       Search
                     </Button>
-                    <Button variant="dark" className="buttons">
-                      <Link to="/pokedex" className="link-tag">
+                    <Link to="/pokedex" className="link-tag">
+                      <Button variant="dark" className="buttons">
                         View Full Pokédex
-                      </Link>
-                    </Button>
+                      </Button>
+                    </Link>
                   </Form>
                 </Col>
               </section>

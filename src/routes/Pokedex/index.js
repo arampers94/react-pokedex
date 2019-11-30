@@ -3,13 +3,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
-import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 import regions from './data'
 import { useHistory } from 'react-router-dom'
 import LoadingScreen from '../../components/LoadingScreen'
 import { connect } from 'react-redux'
 import { initialFetch, updateRegion } from '../../store/actions/pokedexActions'
+import { Link } from 'react-router-dom'
 
 import './pokedex.sass'
 
@@ -97,10 +97,10 @@ const Pokedex = (props) => {
               {list.map((pokemon, index) => {
                 return (
                   <div className="pokemon-item" key={index}>
-                    <Nav.Link href={`/pokedex/${pokemon.name}`}>
+                    <Link to={`/pokedex/${pokemon.name}`}>
                       <div className="transparent-overlay"></div>
                       <img src={pokemon.img} alt={pokemon.name} className="pokemon-image" />
-                    </Nav.Link>
+                    </Link>
                     <p style={{ textTransform: "capitalize" }}>{pokemon.name}</p>
                   </div>
                 )

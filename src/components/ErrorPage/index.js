@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Nav from 'react-bootstrap/Nav'
 import Psyduck from '../../images/psyduck.jpg'
+import { Link } from 'react-router-dom'
 
 import './error.sass'
 
@@ -20,13 +21,13 @@ const ErrorPage = () => {
           </p>
         </Col>
         <Col xs="12">
-          <Nav.Link href="/pokedex" style={{ color: 'black' }}>
-            <div className="back-button">
+          <div className="back-button">
+            <Link to='/pokedex'>
               <Button variant="danger">
                 <span>Back to Pokedex</span>
               </Button>
-            </div>
-          </Nav.Link>
+            </Link>
+          </div>
         </Col>
       </section>
     </Row>

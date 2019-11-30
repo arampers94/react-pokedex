@@ -6,6 +6,7 @@ import axios from 'axios'
 import ErrorPage from '../../components/ErrorPage'
 import LoadingScreen from '../../components/LoadingScreen'
 import Types from './types'
+import { Link } from 'react-router-dom'
 
 import './pokemon.sass'
 import backgrounds from './backgrounds'
@@ -336,9 +337,11 @@ const Pokemon = ({ match }) => {
 
             <section className="entry-section">
               <Col xs="12">
-                <Button variant="danger" href="/pokedex">
-                  Back to Pokédex
-                </Button>
+                <Link to='/pokedex'>
+                  <Button variant="danger">
+                    Back to Pokédex
+                  </Button>
+                </Link>
               </Col>
             </section>
 
